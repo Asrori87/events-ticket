@@ -66,7 +66,7 @@
 		</div>
 
 		<!-- Memanggil File JS Eksternal -->
-		<script src="/js/concerts.js"></script>
+		<script src="/events-ticket/js/concerts.js"></script>
 		<script>
 			// Fungsi untuk menampilkan daftar konser
 			function displayConcerts() {
@@ -83,7 +83,7 @@
                                 <p class="card-text">${concert.description}</p>
                                 <p><strong>Tanggal:</strong> ${concert.date}</p>
                                 <p><strong>Lokasi:</strong> ${concert.location}</p>
-                                <a href="detail.html?id=${concert.id}" class="btn btn-primary w-100">Pesan Tiket</a>
+                                <a href="/events-ticket/detail.html?id=${concert.id}" class="btn btn-primary w-100">Pesan Tiket</a>
                             </div>
                         </div>
                     </div>
