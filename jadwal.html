@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Jadwal Konser</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<!-- Header -->
+		<header class="bg-primary text-white py-3">
+			<div class="container">
+				<nav class="navbar navbar-expand-lg navbar-primary">
+					<!-- Logo dan Judul -->
+					<a class="navbar-brand d-flex align-items-center text-white" href="/">
+						<h1 class="h4 mb-0">Ticketin</h1>
+					</a>
+
+					<!-- Tombol Toggle -->
+					<button
+						class="navbar-toggler text-white"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarNav"
+						aria-controls="navbarNav"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<!-- Menu Navigasi -->
+					<div
+						class="collapse navbar-collapse justify-content-between"
+						id="navbarNav"
+					>
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a class="nav-link text-white" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-white" href="#">Jadwal Konser</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-white" href="#">Kontak</a>
+							</li>
+						</ul>
+						<div class="d-flex mt-3 mt-lg-0">
+							<button class="btn btn-outline-light me-2">Login</button>
+							<button class="btn btn-light">Daftar</button>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</header>
+
+		<!-- Halaman Jadwal Konser -->
+		<div class="container mt-5">
+			<h2>Jadwal Konser</h2>
+			<div class="row" id="concerts-list">
+				<!-- Data konser akan ditampilkan di sini -->
+			</div>
+		</div>
+
+		<!-- Memanggil File JS Eksternal -->
+		<script src="/js/concerts.js"></script>
+		<script>
+			// Fungsi untuk menampilkan daftar konser
+			function displayConcerts() {
+				const concertsList = document.getElementById("concerts-list");
+				concertsList.innerHTML = "";
+
+				concerts.forEach((concert) => {
+					const concertCard = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="https://via.placeholder.com/300" class="card-img-top" alt="${concert.artist}">
+                            <div class="card-body">
+                                <h5 class="card-title">${concert.artist}</h5>
+                                <p class="card-text">${concert.description}</p>
+                                <p><strong>Tanggal:</strong> ${concert.date}</p>
+                                <p><strong>Lokasi:</strong> ${concert.location}</p>
+                                <a href="detail.html?id=${concert.id}" class="btn btn-primary w-100">Pesan Tiket</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+					concertsList.innerHTML += concertCard;
+				});
+			}
+
+			// Panggil fungsi untuk menampilkan konser saat halaman dimuat
+			displayConcerts();
+		</script>
+
+		<!-- Footer -->
+		<footer class="bg-primary text-white text-center py-3">
+			<p>&copy; 2024 Konser Anda. Semua Hak Dilindungi.</p>
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pemesanan Tiket</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div class="container mt-5">
+			<h2>Pemesanan Tiket Konser</h2>
+
+			<!-- Form Pemesanan Tiket -->
+			<form id="ticket-form">
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<label for="ticket-class" class="form-label"
+							>Pilih Kelas Tiket</label
+						>
+						<select class="form-select" id="ticket-class" required>
+							<!-- Opsi kelas tiket akan dimuat disini -->
+						</select>
+					</div>
+					<div class="col-md-6">
+						<label for="ticket-quantity" class="form-label">Jumlah Tiket</label>
+						<input
+							type="number"
+							class="form-control"
+							id="ticket-quantity"
+							value="1"
+							min="1"
+							required
+						/>
+					</div>
+				</div>
+
+				<!-- Ringkasan Pemesanan -->
+				<h3>Ringkasan Pemesanan</h3>
+				<div id="order-summary" class="mb-4">
+					<!-- Ringkasan tiket akan ditampilkan disini -->
+				</div>
+
+				<!-- Data Pembeli -->
+				<h3>Data Pembeli</h3>
+				<div class="mb-4">
+					<label for="name" class="form-label">Nama Lengkap</label>
+					<input type="text" class="form-control" id="name" required />
+				</div>
+				<div class="mb-4">
+					<label for="email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="email" required />
+				</div>
+				<div class="mb-4">
+					<label for="phone" class="form-label">Nomor Telepon</label>
+					<input type="tel" class="form-control" id="phone" required />
+				</div>
+				<button type="submit" class="btn btn-primary">Pesan Tiket</button>
+			</form>
+		</div>
+
+		<!-- Memanggil File JS Eksternal -->
+		<script src="/js/concerts.js"></script>
+		<script>
+			// Mendapatkan ID konser dari URL
+			const urlParams = new URLSearchParams(window.location.search);
+			const concertId = urlParams.get("id");
+
+			// Mencari konser berdasarkan ID
+			const concert = concerts.find((concert) => concert.id == concertId);
+
+			// Menampilkan informasi konser dan pilihan tiket
+			document.title = `Pemesanan Tiket - ${concert.artist}`;
+
+			// Menampilkan opsi kelas tiket
+			const ticketClassSelect = document.getElementById("ticket-class");
+			concert.tickets.forEach((ticket) => {
+				const option = document.createElement("option");
+				option.value = ticket.class;
+				option.textContent = `${ticket.class} - ${ticket.price} (Tersedia: ${ticket.available})`;
+				ticketClassSelect.appendChild(option);
+			});
+
+			// Mengupdate ringkasan pemesanan
+			const updateSummary = () => {
+				const selectedClass = ticketClassSelect.value;
+				const quantity = document.getElementById("ticket-quantity").value;
+
+				const selectedTicket = concert.tickets.find(
+					(ticket) => ticket.class === selectedClass,
+				);
+				const totalPrice =
+					selectedTicket.price.replace("Rp ", "").replace(".", "") * quantity;
+
+				document.getElementById("order-summary").innerHTML = `
+                <p><strong>Konser:</strong> ${concert.artist} - ${
+					concert.date
+				} di ${concert.location}</p>
+                <p><strong>Kelas Tiket:</strong> ${selectedClass}</p>
+                <p><strong>Harga per Tiket:</strong> ${selectedTicket.price}</p>
+                <p><strong>Jumlah Tiket:</strong> ${quantity}</p>
+                <p><strong>Total Biaya:</strong> Rp ${totalPrice.toLocaleString()}</p>
+            `;
+			};
+
+			// Menampilkan ringkasan saat memilih kelas tiket atau jumlah tiket
+			document
+				.getElementById("ticket-class")
+				.addEventListener("change", updateSummary);
+			document
+				.getElementById("ticket-quantity")
+				.addEventListener("input", updateSummary);
+
+			// Memanggil updateSummary untuk pertama kali
+			updateSummary();
+
+			// Menangani pengiriman form
+			document.getElementById("ticket-form").addEventListener("submit", (e) => {
+				e.preventDefault();
+
+				// Menyimpan data pembeli
+				const name = document.getElementById("name").value;
+				const email = document.getElementById("email").value;
+				const phone = document.getElementById("phone").value;
+
+				// Tampilkan alert atau proses pemesanan lebih lanjut
+				alert(
+					`Tiket berhasil dipesan oleh ${name}. \nTiket akan dikirim ke email ${email}.`,
+				);
+			});
+		</script>
+
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+	</body>
+</html>
